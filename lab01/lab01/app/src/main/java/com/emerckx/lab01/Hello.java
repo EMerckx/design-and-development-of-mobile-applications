@@ -1,9 +1,11 @@
 package com.emerckx.lab01;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 public class Hello extends Activity {
 
@@ -11,6 +13,14 @@ public class Hello extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hello);
+
+        // Get the message from the intent
+        Intent intent = getIntent();
+        String base_message = getResources().getString(R.string.started_from);
+        String message = intent.getStringExtra("message");
+
+        TextView textView = (TextView) findViewById(R.id.textview_message);
+        textView.setText(base_message + " " + message);
     }
 
     @Override

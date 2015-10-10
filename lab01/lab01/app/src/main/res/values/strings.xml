@@ -10,4 +10,5 @@
     <string name="what_is_your_name">What is your name?</string>
     <string name="name">Name</string>
     <string name="submit">Submit</string>
+    <string name="started_from">This activity has been called by</string>
 </resources>

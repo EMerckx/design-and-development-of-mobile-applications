@@ -35,11 +35,8 @@ public class MainActivity extends Activity {
 
                 // create an Intent to start an activity called DisplayMessageActivity
                 Intent intent = new Intent(MainActivity.this, Hello.class);
+                intent.putExtra("message", getClass().getName());
                 startActivity(intent);
-
-                /*Activity helloActivity = new Hello();
-                Intent intent = new Intent(helloActivity, MainActivity.class);
-                startActivity(intent);*/
             }
         });
     }
