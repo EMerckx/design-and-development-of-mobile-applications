@@ -36,7 +36,7 @@ public class MainActivity extends Activity {
                 // create an Intent to start an activity called DisplayMessageActivity
                 Intent intent = new Intent(MainActivity.this, Hello.class);
                 intent.putExtra("message", getClass().getName());
-                startActivity(intent);
+                startActivityForResult(intent, RESULT_OK);
             }
         });
     }
@@ -125,5 +125,26 @@ public class MainActivity extends Activity {
         dateFormat.setTimeZone(TimeZone.getTimeZone("Europe/Brussels"));
         Date date = new Date();
         return dateFormat.format(date);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.i("MainActivity", "onActivityResult(int requestCode, int resultCode, Intent data)");
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // if status code is OK
+        if (resultCode == RESULT_OK) {
+            if (data.hasExtra("name")) {
+                // get the data from the Intent
+                String name = data.getExtras().getString("name");
+
+                Log.d("MainActivity", name);
+
+                // set the data to the Textview
+                TextView textView = (TextView) findViewById(R.id.textview_name_placeholder);
+                textView.setText(name);
+            }
+
+        }
     }
 }

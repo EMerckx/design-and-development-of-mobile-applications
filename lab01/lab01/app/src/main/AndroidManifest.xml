@@ -18,8 +18,11 @@
         </activity>
         <activity
             android:name=".Hello"
-            android:label="@string/title_activity_hello">
-
+            android:label="@string/title_activity_hello"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.emerckx.lab01.MainActivity" />
         </activity>
     </application>
 
