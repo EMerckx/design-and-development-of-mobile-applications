@@ -1,10 +1,21 @@
 package com.emerckx.lab01;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.sql.Time;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 
 public class MainActivity extends Activity {
 
@@ -73,5 +84,31 @@ public class MainActivity extends Activity {
     protected void onDestroy() {
         Log.i("MainActivity", "onDestroy()");
         super.onDestroy();
+    }
+
+    public void onClickButtonHelloWorld(View view) {
+        Log.i("MainActivity", "onClickButtonHelloWorld(View view)");
+
+        // get the variables for the toast message
+        Context context = getApplicationContext();
+        CharSequence text = "Hello world! (clicked)";
+        int duration = Toast.LENGTH_SHORT;
+        // create a toast message
+        Toast toast = Toast.makeText(context, text, duration);
+        // show the toast message on screen
+        toast.show();
+
+        // change the text of the Textview
+        TextView textView = (TextView) findViewById(R.id.textview_hello_world);
+        String helloWorld = getResources().getString(R.string.hello_world);
+        String time = getTime();
+        textView.setText(helloWorld + " " + time);
+    }
+
+    private String getTime() {
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        dateFormat.setTimeZone(TimeZone.getTimeZone("Europe/Brussels"));
+        Date date = new Date();
+        return dateFormat.format(date);
     }
 }
