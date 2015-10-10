@@ -4,4 +4,10 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="button_click">Click</string>
+    <string name="unknown_username">User name not known.</string>
+    <string name="go_get_it">Go get it</string>
+    <string name="title_activity_hello">Hello</string>
+    <string name="what_is_your_name">What is your name?</string>
+    <string name="name">Name</string>
+    <string name="submit">Submit</string>
 </resources>

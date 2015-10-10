@@ -2,6 +2,7 @@ package com.emerckx.lab01;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -24,6 +25,23 @@ public class MainActivity extends Activity {
         Log.i("MainActivity", "onCreate(Bundle savedInstanceState)");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // set a click listener for the go get it button
+        View buttonView = findViewById(R.id.button_go_get_it);
+        buttonView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.i("MainActivity", "onClick(View view)");
+
+                // create an Intent to start an activity called DisplayMessageActivity
+                Intent intent = new Intent(MainActivity.this, Hello.class);
+                startActivity(intent);
+
+                /*Activity helloActivity = new Hello();
+                Intent intent = new Intent(helloActivity, MainActivity.class);
+                startActivity(intent);*/
+            }
+        });
     }
 
     @Override
