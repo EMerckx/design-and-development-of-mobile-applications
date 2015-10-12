@@ -20,6 +20,8 @@ import java.util.TimeZone;
 
 public class MainActivity extends Activity {
 
+    private final int REQUEST_ID = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.i("MainActivity", "onCreate(Bundle savedInstanceState)");
@@ -36,7 +38,8 @@ public class MainActivity extends Activity {
                 // create an Intent to start an activity called DisplayMessageActivity
                 Intent intent = new Intent(MainActivity.this, Hello.class);
                 intent.putExtra("message", getClass().getName());
-                startActivityForResult(intent, RESULT_OK);
+                // to start the activity for a result, add the intent and an id to identify the request!
+                startActivityForResult(intent, REQUEST_ID);
             }
         });
     }
@@ -130,11 +133,11 @@ public class MainActivity extends Activity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.i("MainActivity", "onActivityResult(int requestCode, int resultCode, Intent data)");
-        super.onActivityResult(requestCode, resultCode, data);
+        //super.onActivityResult(requestCode, resultCode, data);
 
         // if status code is OK
         if (resultCode == RESULT_OK) {
-            if (data.hasExtra("name")) {
+            if (requestCode == REQUEST_ID && data.hasExtra("name")) {
                 // get the data from the Intent
                 String name = data.getExtras().getString("name");
 

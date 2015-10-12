@@ -65,11 +65,11 @@ public class Hello extends Activity {
         Log.d("Hello", name);
 
         // create intent
-        Intent intent = new Intent();
+        Intent intent = getIntent();
         intent.putExtra("name", name);
 
         // finish activity and return the result
-        setResult(RESULT_OK, intent);
+        this.setResult(RESULT_OK, intent);
         finish();
     }
 }
