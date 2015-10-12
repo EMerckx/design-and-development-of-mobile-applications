@@ -8,8 +8,14 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
 
-        <!-- TODO: Add 'be.ugent.oomt.labo3.contentprovider.MessageProvider' with authorities attribute set to the same value as in MessageProvider class.
-            Authoroties is a unique name for this contentprovider which can be used to access the content provider outside this application. -->
+        <!-- TODO:
+        Add 'be.ugent.oomt.labo3.contentprovider.MessageProvider' with authorities attribute
+        set to the same value as in MessageProvider class.
+            Authorities is a unique name for this contentprovider which can be used to access
+            the content provider outside this application. -->
+        <provider
+            android:authorities="be.ugent.oomt.labo3.contentprovider.MessageProvider"
+            android:name=".contentprovider.MessageProvider" />
 
         <activity
             android:name=".MainActivity"
