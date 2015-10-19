@@ -4,6 +4,7 @@ package be.ugent.oomt.labo3;
 import android.app.ListFragment;
 import android.app.LoaderManager;
 import android.content.Intent;
+import android.content.Loader;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.view.View;
@@ -12,10 +13,12 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 
+import be.ugent.oomt.labo3.contentprovider.database.DatabaseContract;
+
 /**
  * Created by elias on 12/01/15.
  */
-public class MainFragment extends ListFragment {
+public class MainFragment extends ListFragment implements LoaderManager.LoaderCallbacks<Object> {
 
     boolean mDuelPane;
     int mCurCheckPosition = 0;
@@ -25,32 +28,28 @@ public class MainFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        final int ID = 0;
-        // TODO: initialize asynchronous loader
-        getLoaderManager().initLoader(ID, null, null);
+        // DONE: initialize asynchronous loader
+        // public abstract Loader<D> initLoader (int id, Bundle args, LoaderCallbacks<D> callback)
+        getLoaderManager().initLoader(0, null, this);
 
-        // CREATE THE ADAPTER USING THE CURSOR POINTING TO THE DESIRED DATA AS WELL AS THE LAYOUT INFORMATION
-        SimpleCursorAdapter mAdapter = new SimpleCursorAdapter(getActivity(),
-                android.R.layout.simple_list_item_activated_2, null,
-                new String[] { ContactsContract.Contacts.DISPLAY_NAME, ContactsContract.Contacts.CONTACT_STATUS },
-                new int[] { android.R.id.text1, android.R.id.text2 }, 0);
-
-
-
-        // TODO: Change ArrayAdapter to SimpleCursorAdapter to access the ContentProvider
-        ListAdapter listAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_activated_1,
-                getResources().getStringArray(R.array.superheroes_names));
+        // DONE: Change ArrayAdapter to SimpleCursorAdapter to access the ContentProvider
+        // public SimpleCursorAdapter (Context context, int layout, Cursor c, String[] from,
+        //                              int[] to, int flags)
+        String[] from = new String[]{
+                DatabaseContract.Contact.COLUMN_NAME_CONTACT,
+                DatabaseContract.Contact.COLUMN_NAME_STATE
+        };
+        int[] to = new int[]{
+                android.R.id.text1,
+                android.R.id.text2
+        };
+        ListAdapter listAdapter = new SimpleCursorAdapter(this.getActivity(),
+                android.R.layout.simple_list_item_activated_2,
+                null,
+                from,
+                to,
+                0);
         setListAdapter(listAdapter);
-
-/*
-        new CursorLoader(
-                getActivity(),   // Parent activity context
-                mDataUrl,        // Table to query
-                mProjection,     // Projection to return
-                null,            // No selection clause
-                null,            // No selection arguments
-                null             // Default sort order
-        );*/
     }
 
     @Override
@@ -98,6 +97,21 @@ public class MainFragment extends ListFragment {
             intent.putExtra("index", index);
             startActivity(intent);
         }
+    }
+
+    @Override
+    public Loader<Object> onCreateLoader(int id, Bundle args) {
+        return null;
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Object> loader, Object data) {
+
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Object> loader) {
+
     }
 
     // TODO: implement LoaderManager.LoaderCallbacks<Cursor> interface
