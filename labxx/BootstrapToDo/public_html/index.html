@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/style.css"/>
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="input-group col-lg-12 hidden-xs">
+                    <div  class="input-group">
+                        <span class="input-group-addon">Do</span>
+                        <input id="txtItem" type="text" class="form-control" placeholder="something" />
+                        <span class="input-group-addon">before</span>
+                        <input id="dtItem" type="datetime-local" class="form-control" />
+                        <span class="input-group-btn">
+                            <button id="btnAdd" class="btn btn-primary" type="button">Add</button>
+                        </span>
+                    </div>
+                </div>
+                <div class="hidden-sm hidden-md hidden-lg">
+                    <div id="input-small">
+                        <div class="input-group col-lg-12">
+                            <span class="input-group-addon">Do</span>
+                            <input id="txtItem3" type="text" class="form-control" placeholder="something" />
+                        </div>
+                        <div class="input-group col-lg-12">
+                            <span class="input-group-addon">before</span>
+                            <input id="dtItem3" type="datetime-local" class="form-control col-lg-12" />
+                        </div>
+                        <span class="">
+                            <button id="btnAdd3" class="btn btn-primary btn-lg btn-block" type="button">Add</button>
+                        </span>
+                    </div>
+
+                    <div class="input-group col-lg-12">
+                        <button id="btnAdd2" class="btn btn-primary" type="button">Add</button>
+                    </div>
+                </div>
+            </div>
+            <hr/>
+
+            <div class="row" id="items">
+            </div>
+        </div>
+
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script> 
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+        <script src="js/script.js"></script>
+    </body>
+
+
+</html>
