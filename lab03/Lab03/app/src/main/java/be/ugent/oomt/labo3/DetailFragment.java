@@ -9,7 +9,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import be.ugent.oomt.labo3.contentprovider.MessageProvider;
 import be.ugent.oomt.labo3.contentprovider.database.DatabaseContract;
@@ -21,6 +24,9 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
 
     private TextView titleTextView;
     private TextView summaryTextView;
+    private EditText editText;
+
+    private String currentUserName = "test@ugent.be";
 
     public String getShownContact() {
         return getArguments().getString("contact", "");
@@ -46,6 +52,21 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         View view = inflater.inflate(R.layout.fragment_detail, container, false);
         titleTextView = (TextView) view.findViewById(R.id.detail_title);
         summaryTextView = (TextView) view.findViewById(R.id.detail_summary);
+
+        // get footer for sending
+        View footer = view.findViewById(R.id.footer);
+        editText = (EditText) footer.findViewById(R.id.send_text);
+        Button buttonSend = (Button) footer.findViewById(R.id.button_send);
+        footer.setVisibility(getShownContact().equals(currentUserName) ? View.VISIBLE : View.INVISIBLE);
+
+        // add a listener for the button
+        buttonSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast toast = Toast.makeText(getActivity(), "Send button clicked", Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        });
 
         // get the contact name
         String contactName = getShownContact();

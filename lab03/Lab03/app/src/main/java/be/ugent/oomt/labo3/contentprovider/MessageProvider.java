@@ -76,6 +76,25 @@ public class MessageProvider extends ContentProvider {
         values.put(DatabaseContract.Message.COLUMN_NAME_CONTACT, contact);
         values.put(DatabaseContract.Message.COLUMN_NAME_MESSAGE, "This is a second test message.");
         context.getContentResolver().insert(MessageProvider.MESSAGES_CONTENT_URL, values);
+
+        ContentValues values2 = new ContentValues();
+        contact = "test2@ugent.be";
+
+
+        // status update
+        values2.put(DatabaseContract.Contact.COLUMN_NAME_CONTACT, contact);
+        values2.put(DatabaseContract.Contact.COLUMN_NAME_STATE, "test state");
+        context.getContentResolver().insert(MessageProvider.CONTACTS_CONTENT_URL, values2);
+        // message
+        values2 = new ContentValues();
+        values2.put(DatabaseContract.Message.COLUMN_NAME_CONTACT, contact);
+        values2.put(DatabaseContract.Message.COLUMN_NAME_MESSAGE, "This is a test message.");
+        context.getContentResolver().insert(MessageProvider.MESSAGES_CONTENT_URL, values2);
+        // 2nd message
+        values2 = new ContentValues();
+        values2.put(DatabaseContract.Message.COLUMN_NAME_CONTACT, contact);
+        values2.put(DatabaseContract.Message.COLUMN_NAME_MESSAGE, "This is a second test message.");
+        context.getContentResolver().insert(MessageProvider.MESSAGES_CONTENT_URL, values2);
     }
 
     @Override
