@@ -2,7 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="be.ugent.oomt.labo4" >
 
-    <!-- TODO: Add ACCESS_NETWORK_STATE, INTERNET and WAKE_LOCK permissions -->
+    <!-- DONE: Add ACCESS_NETWORK_STATE, INTERNET and WAKE_LOCK permissions -->
+    <permission android:name="ACCESS_NETWORK_STATE"/>
+    <permission android:name="INTERNET" />
+    <permission android:name="WAKE_LOCK" />
 
     <application
         android:allowBackup="true"

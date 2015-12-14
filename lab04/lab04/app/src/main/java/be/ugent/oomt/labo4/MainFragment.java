@@ -43,6 +43,8 @@ public class MainFragment extends ListFragment implements LoaderManager.LoaderCa
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        MqttHandler mqttHandler = MqttHandler.getInstance(getActivity());
+
         getLoaderManager().initLoader(0, null, this);
         // Fields from the database (projection)
         String[] from = new String[] {
