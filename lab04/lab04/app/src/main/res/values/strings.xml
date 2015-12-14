@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Labo 4</string>
+    <string name="title_message_list">Messages</string>
+    <string name="title_message_detail">Feed</string>
+    <string name="new_msg">New message</string>
+    <string name="send">Send</string>
+    <string name="btn_unsubscribe">Unsubscribe</string>
+    <string name="text_none_selected">None selected</string>
+
+</resources>
