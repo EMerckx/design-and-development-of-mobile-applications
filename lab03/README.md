@@ -1,10 +1,6 @@
-# Lab 3
+# Lab 3: MQTT-based Twitter App Part 1
 
-## Exercise
-
-### 1 
-
-Add the provided content provider to your app manifest file. This will make sure the SQLLite database is created when your application is first run.
+## Add the content provider 
 
 ``` xml
 <provider
@@ -13,9 +9,7 @@ Add the provided content provider to your app manifest file. This will make sure
 	android:exported="false" />
 ```
 
-### 2
-
-Update the list view code of last week to take input from the content provider. The ListAdapter of MainFragment must be replaced with a SimpleCursorAdapter. This adapter needs some extra parameters: the cursor which can be null at first but needs to be swapped with the correct cursor, an array of column names from the cursor (accessible through DatabaseContract.Contact|Message class and the array of ids to map the columns to text views of the selected layout file. Use the android.R.layout.simple_list_ item_activated_2 which has 2 text views for the name and the state (android.R.id.text1|text2).
+## Change ArrayAdapter to SimpleCursorAdapter
 
 <b>Constructor: public SimpleCursorAdapter (Context context, int layout, Cursor c, String[] from, int[] to, int flags)</b>
 * <b>context</b>: The context where the ListView associated with this SimpleListItemFactory is running
@@ -26,27 +20,25 @@ Update the list view code of last week to take input from the content provider. 
 * <b>flags</b>: Flags used to determine the behavior of the adapter, as per CursorAdapter(Context, Cursor, int).
 
 ``` java
-// DONE: Change ArrayAdapter to SimpleCursorAdapter to access the ContentProvider
 String[] from = new String[]{
     DatabaseContract.Contact.COLUMN_NAME_CONTACT,
     DatabaseContract.Contact.COLUMN_NAME_STATE
 };
 int[] to = new int[]{
-    android.R.id.text1,
-    android.R.id.text2
+        android.R.id.text1, android.R.id.text2
 };
-ListAdapter listAdapter = new SimpleCursorAdapter(this.getActivity(),
-    android.R.layout.simple_list_item_activated_2,
-    null,
-    from,
-    to,
-    0);
+ListAdapter listAdapter = new SimpleCursorAdapter(
+    getActivity(),                                      // Context
+    android.R.layout.simple_list_item_activated_2,      // int layout
+    null,                                               // Context
+    from,                                               // String[] from
+    to,                                                 // int[] to
+    0                                                   // int flags
+);
 setListAdapter(listAdapter);
 ```
 
-### 3
-
-Load the cursor by an asynchronous LoadManager. This will make sure your data is always up-to-date and you do not have to re-query if data is added, updated or removed. We will update the DetailFragment later with the messages received from an other client (for now, just comment out the show details part).
+## Initialize cursor by asynchronous loader
 
 <b>public abstract Loader<D> initLoader (int id, Bundle args, LoaderCallbacks<D> callback)</b>: Ensures a loader is initialized and active. If the loader doesn't already exist, one is created and (if the activity/fragment is currently started) starts the loader. Otherwise the last created loader is re-used. In either case, the given callback is associated with the loader, and will be called as the loader state changes. If at the point of call the caller is in its started state, and the requested loader already exists and has generated its data, then callback onLoadFinished(Loader, D) will be called immediately (inside of this function), so you must be prepared for this to happen.
 * <b>id</b>: A unique identifier for this loader. Can be whatever you want. Identifiers are scoped to a particular LoaderManager instance.
@@ -54,8 +46,8 @@ Load the cursor by an asynchronous LoadManager. This will make sure your data is
 * <b>callback</b>: Interface the LoaderManager will call to report about changes in the state of the loader. Required.
 
 ``` java
-// DONE: initialize asynchronous loader
-getLoaderManager().initLoader(0, null, this);
+LoaderManager loadermanager = getLoaderManager();
+loadermanager.initLoader(0, null, this);
 ```
 
 We need to implement the callbacks for the loader. Alt Enter on "this" should generate following code.
@@ -72,15 +64,54 @@ public class MainFragment 	extends ListFragment
     }
 
     @Override
-    public void onLoadFinished(Loader<Object> loader, Object data) {
-
-    }
+    public void onLoadFinished(Loader<Object> loader, Object data) { }
 
     @Override
-    public void onLoaderReset(Loader<Object> loader) {
-
-    }
+    public void onLoaderReset(Loader<Object> loader) { }
 }
 ```
 
+### Implement onCreateLoader
+
+``` java
+@Override
+public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+    // add the test data
+    MessageProvider.addTestData(getActivity());
+
+    // set the projection
+    String[] projection = {
+        DatabaseContract.Contact.COLUMN_NAME_CONTACT,
+        DatabaseContract.Contact.COLUMN_NAME_STATE
+    };
+
+    // return the CursorLoader to get the content
+    return new CursorLoader(getActivity(), MessageProvider.CONTACTS_CONTENT_URL, 
+        projection, null, null, null);
+}
+```
+
+### Implement onLoadFinished
+
+``` java
+@Override
+public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+    CursorAdapter cursorAdapter = (CursorAdapter) getListAdapter();
+    cursorAdapter.swapCursor(data);
+}
+```
+
+### Implement onLoaderReset
+
+``` java
+@Override
+public void onLoaderReset(Loader<Cursor> loader) {
+    CursorAdapter cursorAdapter = (CursorAdapter) getListAdapter();
+    cursorAdapter.swapCursor(null);
+}
+```
+
+## Implement DetailFragment
+
+Check code for implementation
 

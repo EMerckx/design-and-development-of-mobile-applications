@@ -1,24 +1,27 @@
 package be.ugent.oomt.labo3;
 
-
+import android.app.FragmentManager;
 import android.app.ListFragment;
 import android.app.LoaderManager;
+import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
+import android.database.Cursor;
 import android.os.Bundle;
-import android.provider.ContactsContract;
+import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
+import android.widget.CursorAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 
+import be.ugent.oomt.labo3.contentprovider.MessageProvider;
 import be.ugent.oomt.labo3.contentprovider.database.DatabaseContract;
 
 /**
  * Created by elias on 12/01/15.
  */
-public class MainFragment extends ListFragment implements LoaderManager.LoaderCallbacks<Object> {
+public class MainFragment extends ListFragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     boolean mDuelPane;
     int mCurCheckPosition = 0;
@@ -29,26 +32,25 @@ public class MainFragment extends ListFragment implements LoaderManager.LoaderCa
         super.onCreate(savedInstanceState);
 
         // DONE: initialize asynchronous loader
-        // public abstract Loader<D> initLoader (int id, Bundle args, LoaderCallbacks<D> callback)
-        getLoaderManager().initLoader(0, null, this);
+        LoaderManager loadermanager = getLoaderManager();
+        loadermanager.initLoader(0, null, this);
 
         // DONE: Change ArrayAdapter to SimpleCursorAdapter to access the ContentProvider
-        // public SimpleCursorAdapter (Context context, int layout, Cursor c, String[] from,
-        //                              int[] to, int flags)
         String[] from = new String[]{
                 DatabaseContract.Contact.COLUMN_NAME_CONTACT,
                 DatabaseContract.Contact.COLUMN_NAME_STATE
         };
         int[] to = new int[]{
-                android.R.id.text1,
-                android.R.id.text2
+                android.R.id.text1, android.R.id.text2
         };
-        ListAdapter listAdapter = new SimpleCursorAdapter(this.getActivity(),
-                android.R.layout.simple_list_item_activated_2,
-                null,
-                from,
-                to,
-                0);
+        ListAdapter listAdapter = new SimpleCursorAdapter(
+                getActivity(),                                      // Context
+                android.R.layout.simple_list_item_activated_2,      // int layout
+                null,                                               // Context
+                from,                                               // String[] from
+                to,                                                 // int[] to
+                0                                                   // int flags
+        );
         setListAdapter(listAdapter);
     }
 
@@ -79,40 +81,66 @@ public class MainFragment extends ListFragment implements LoaderManager.LoaderCa
     }
 
     private void showDetails(int index) {
-        mCurCheckPosition = index;
+        final Cursor cursor = (Cursor) getListView().getItemAtPosition(index);
 
-        if (mDuelPane) {
-            getListView().setItemChecked(index, true);
+        if(cursor != null){
+            final String contact = cursor.getString(
+                    cursor.getColumnIndex(DatabaseContract.Contact.COLUMN_NAME_CONTACT)
+            );
 
-            DetailFragment details = (DetailFragment) getFragmentManager().findFragmentById(R.id.detail_container);
-            if (details == null || details.getShownIndex() != index) {
-                details = DetailFragment.newInstance(index);
-                getFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.detail_container, details)
-                        .commit();
+            if(mDuelPane){
+                getListView().setItemChecked(index, true);
+
+                FragmentManager frag = getFragmentManager();
+                DetailFragment detailFragment =
+                        (DetailFragment) frag.findFragmentById(R.id.detail_container);
+
+                if(detailFragment == null || detailFragment.getShownContact() != contact){
+                    frag.beginTransaction().replace(
+                            R.id.detail_container, DetailFragment.newInstance(contact)
+                    ).commit();
+                }
             }
-        } else {
-            Intent intent = new Intent(getActivity(), DetailActivity.class);
-            intent.putExtra("index", index);
-            startActivity(intent);
+            else {
+                Intent intent = new Intent(getActivity(), DetailActivity.class);
+                intent.putExtra("contact", contact);
+                startActivity(intent);
+            }
         }
     }
 
+    // DONE: implement LoaderManager.LoaderCallbacks<Cursor> interface
     @Override
-    public Loader<Object> onCreateLoader(int id, Bundle args) {
-        return null;
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        Log.i("MainFragment", "onCreateLoader(int id, Bundle args)");
+
+        // add the test data
+        MessageProvider.addTestData(getActivity());
+
+        // set the projection
+        String[] projection = {
+                DatabaseContract.Contact.COLUMN_NAME_CONTACT,
+                DatabaseContract.Contact.COLUMN_NAME_STATE
+        };
+
+        // return the CursorLoader to get the content
+        return new CursorLoader(getActivity(), MessageProvider.CONTACTS_CONTENT_URL, projection,
+                null, null, null);
     }
 
     @Override
-    public void onLoadFinished(Loader<Object> loader, Object data) {
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        Log.i("MainFragment", "onLoadFinished(Loader<Object> loader, Object data)");
 
+        CursorAdapter cursorAdapter = (CursorAdapter) getListAdapter();
+        cursorAdapter.swapCursor(data);
     }
 
     @Override
-    public void onLoaderReset(Loader<Object> loader) {
+    public void onLoaderReset(Loader<Cursor> loader) {
+        Log.i("MainFragment", "onLoaderReset(Loader<Object> loader)");
 
+        CursorAdapter cursorAdapter = (CursorAdapter) getListAdapter();
+        cursorAdapter.swapCursor(null);
     }
-
-    // TODO: implement LoaderManager.LoaderCallbacks<Cursor> interface
 }
