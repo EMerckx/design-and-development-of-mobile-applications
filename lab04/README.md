@@ -1,4 +1,4 @@
-# Lab 3: MQTT-based Twitter App Part 2
+# Lab 4: MQTT-based Twitter App Part 2
 
 ## Question 1
 
