@@ -2,6 +2,12 @@
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent" tools:context=".PongActivity">
 
-    <!-- TODO: Add the be.ugent.oomt.labo5.GameView surfaceview to this viewgroup. -->
+    <!-- DONE: Add the be.ugent.oomt.labo5.GameView surfaceview to this viewgroup. -->
+    <be.ugent.oomt.labo5.GameView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:keepScreenOn="true"
+    android:id="@+id/gameview"
+    />
 
 </LinearLayout>
