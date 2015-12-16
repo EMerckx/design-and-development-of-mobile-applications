@@ -1,0 +1,9 @@
+CACHE MANIFEST
+
+CACHE:
+index.html
+js/script.js
+css/style.css
+lib/css/bootstrap.min.css
+lib/js/jquery-2.1.4.min.js
+lib/js/bootstrap.min.js

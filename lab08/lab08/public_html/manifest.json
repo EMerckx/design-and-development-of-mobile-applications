@@ -1,0 +1,7 @@
+{
+  "short_name": "ToDo App",
+  "name": "Ewout's ToDo App",
+  "start_url": "/lab08/index.html",
+  "display": "standalone",
+  "orientation": "portrait"
+}
