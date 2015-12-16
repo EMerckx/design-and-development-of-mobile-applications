@@ -1,1 +1,1 @@
-Lab 6: Bluetooth Low Energy
+# Lab 6: Bluetooth Low Energy
