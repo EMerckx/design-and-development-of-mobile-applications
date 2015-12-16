@@ -118,7 +118,9 @@ public void onSensorChanged(SensorEvent event) {
 ```
 
 
+https://developer.android.com/tools/support-library/setup.html#libs-with-res
 
+https://developer.android.com/tools/support-library/features.html#v7
 
 [1]: https://stackoverflow.com/questions/25240299/can-anybody-explain-what-is-difference-between-unbound-and-bound-service-in-andr
 [2]: https://stackoverflow.com/questions/9272217/service-or-bound-service
